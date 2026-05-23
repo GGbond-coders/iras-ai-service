@@ -1,0 +1,70 @@
+# ==============================================================================
+# IRAS 智能简历诊断系统 - 应用配置文件
+# ==============================================================================
+# 此文件包含 Spring Boot 应用的所有配置项，包括：
+# - 服务器配置（端口、上下文路径）
+# - 数据库连接配置（MySQL）
+# - 文件上传限制
+# - JSON 序列化格式
+# - MyBatis 配置
+# - JWT 认证配置
+# - Dify AI 平台配置
+# - 日志级别配置
+# ==============================================================================
+
+# --- 服务器配置 ---
+server:
+  port: 8080                          # 应用监听端口
+  servlet:
+    context-path: /iras               # 应用上下文路径，所有接口前缀为 /iras
+
+# --- Spring 配置 ---
+spring:
+  # 数据库连接配置（MySQL）
+  datasource:
+    url: jdbc:mysql://localhost:3306/iras_v2?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root                     # 数据库用户名
+    password: "1234"                   # 数据库密码（生产环境应使用加密方式存储）
+    driver-class-name: com.mysql.cj.jdbc.Driver  # MySQL JDBC 驱动类
+  # 文件上传限制配置
+  servlet:
+    multipart:
+      max-file-size: 10MB             # 单个文件最大大小
+      max-request-size: 10MB          # 单次请求最大大小
+  # Jackson JSON 序列化配置
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss  # 日期格式化模式
+    time-zone: Asia/Shanghai           # 时区设置
+
+# --- MyBatis 配置 ---
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  # Mapper XML 文件位置
+  type-aliases-package: com.iras.entity     # 实体类别名包路径
+  configuration:
+    map-underscore-to-camel-case: true      # 开启下划线转驼峰命名映射
+
+# --- JWT 认证配置 ---
+jwt:
+  secret: IRAS-Secret-Key-For-JWT-Token-Generation-2024-Long-Enough-For-HS512  # JWT 签名密钥（HS512 需至少 64 字节）
+  expiration: 86400000  # Token 过期时间：86400000 毫秒 = 24 小时
+
+## --- Dify AI 平台配置 ---
+
+## 改前
+#dify:
+#  base-url: https://api.dify.ai/v1
+#  job-profile-key: app-1S7R9zv0wEmZDKpk5uB4IXcB
+#  resume-diagnosis-key: app-eAFPOpKqhM1WKEObg8HZJOY1
+
+#改后
+dify:
+  base-url: http://localhost:8000/v1             # IRAS AI Service (替代 Dify)
+  job-profile-key: iras-ai-service-token-2024    # 职能画像 Workflow 的 API Key
+  resume-diagnosis-key: iras-ai-service-token-2024  # 简历诊断 Workflow 的 API Key
+
+
+
+# --- 日志配置 ---
+logging:
+  level:
+    com.iras: debug                    # 设置 com.iras 包的日志级别为 debug

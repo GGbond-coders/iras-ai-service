@@ -1,0 +1,577 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: workflow
+  name: 岗位匹配500
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.15@725407927b04e236212083d20e92830d60fa944e42cd357ef6902c160414f6f1
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.1.43@c56cb5159e37b2719559550518312773bb08e11baaf5b791cccf472d272b5438
+    version: null
+kind: app
+version: 0.6.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 50
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1777449083353-source-1777449125546-target
+      selected: false
+      source: '1777449083353'
+      sourceHandle: source
+      target: '1777449125546'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: end
+      id: 1777449125546-source-1777449604737-target
+      selected: false
+      source: '1777449125546'
+      sourceHandle: source
+      target: '1777449604737'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1777448518758-source-1777449125546-target
+      selected: false
+      source: '1777448518758'
+      sourceHandle: source
+      target: '1777449125546'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1777448514759-source-1777451578014-target
+      source: '1777448514759'
+      sourceHandle: source
+      target: '1777451578014'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1777451578014-source-1777448518758-target
+      source: '1777451578014'
+      sourceHandle: source
+      target: '1777448518758'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1777448518758-source-1777459248531-target
+      source: '1777448518758'
+      sourceHandle: source
+      target: '1777459248531'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1777459248531-source-1777460505649-target
+      source: '1777459248531'
+      sourceHandle: source
+      target: '1777460505649'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: knowledge-retrieval
+      id: 1777460505649-source-1777449083353-target
+      source: '1777460505649'
+      sourceHandle: source
+      target: '1777449083353'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入—求职简历
+        type: start
+        variables:
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          - remote_url
+          default: ''
+          hint: ''
+          label: resume_text
+          max_length: 2
+          options: []
+          placeholder: ''
+          required: true
+          type: file-list
+          variable: resume_text
+      height: 109
+      id: '1777448514759'
+      position:
+        x: -231.2502421537111
+        y: 308.85855287032285
+      positionAbsolute:
+        x: -231.2502421537111
+        y: 308.85855287032285
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1777451578014'
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4-pro
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 669dd8e7-df1e-46ba-8fec-deb6afe517e1
+          role: system
+          text: "# Role\n你是一个简历解析专家，负责从原始文本中提取核心信息。\n\n# Task\n请将提供的简历文本解析为以下 JSON\
+            \ 格式（只需输出 JSON 内容）：\n{\n  \"skills\": [\"技术栈关键词1\", \"技术栈关键词2\"],\n  \"\
+            experience\": \"核心项目经验简述\",\n  \"years\": \"工作年限（数字）\",\n  \"intention\"\
+            : \"求职意向/目标岗位\"\n}\n\n要求：\n1。不要输出任何推理过程\n2.不要出现<think>标签\n\n# Input\n\
+            {{{#1777451578014.text#}}}}"
+        selected: false
+        title: LLM-简历解析
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1777448518758'
+      position:
+        x: 384.0476938008569
+        y: 282
+      positionAbsolute:
+        x: 384.0476938008569
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - lG8tg5ViBnpT1otVL1D6NKEaLKPFhta8vWURggtnXoKScD/W5Vwp46ULecLA7lwE
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: gte-rerank-v2
+            provider: langgenius/tongyi/tongyi
+          score_threshold: null
+          top_k: 8
+          weights:
+            keyword_setting:
+              keyword_weight: 0.3
+            vector_setting:
+              embedding_model_name: text-embedding-v2
+              embedding_provider_name: langgenius/tongyi/tongyi
+              vector_weight: 0.7
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1777460505649'
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 90
+      id: '1777449083353'
+      position:
+        x: 1270.9997494351312
+        y: 609.2475969625772
+      positionAbsolute:
+        x: 1270.9997494351312
+        y: 609.2475969625772
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1777449083353'
+          - result
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4-pro
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: def686e3-8b9c-4d80-849b-e8d883860623
+          role: system
+          text: '# Role
+
+            你是一名资深IT猎头，擅长精准匹配人才与岗位。
+
+
+            # Context
+
+            - 候选人信息：{{{#1777448518758.text#}}}}
+
+            - 匹配岗位库信息：{{#context#}}
+
+
+            # Task
+
+            请对比两者，生成一份专业的诊断报告。
+
+            “如果检索到的岗位与简历方向完全不符，请在报告开头予以说明，不要强行匹配。”
+
+
+            # Requirements
+
+            0.匹配到候选人最合适的岗位，重点放在能力点的匹配上。
+
+            1. 必须包含 [匹配分值]：基于技能重合度打分。
+
+            2. 必须包含 [差距点]：列出岗位要求但简历里没写的关键技术。
+
+            3. 必须包含 [面试建议]：针对该岗位的核心考察点给用户提问。
+
+            4，可以匹配二到三个输出，以列表形式输出
+
+
+            # Output Language
+
+            输出格式
+
+            [
+
+            {
+
+            "matched_score": 85,
+
+            "matched_job": "前端开发（广州超视计生物科技有限公司）",
+
+            "type": "全职",
+
+            "salary": 16000,
+
+            "matched_reason": "该岗位明确要求低代码与数据可视化方向，候选人具备低代码可视化搭建平台的核心渲染经验，且熟练使用TypeScript、WebGL、Three.js进行可视化开发，技能方向高度契合。虽然工作年限要求3年，候选人2.5年经验接近，且项目深度可弥补。",
+
+            "gap_points": [
+
+            "岗位可能期望熟悉ECharts、D3.js等常规图表库，简历中仅体现Three.js/WebGL，未提及2D可视化库",
+
+            "未明确体现对数据可视化基础理论（如视觉编码、交互设计）的掌握",
+
+            "缺少后端协作或数据处理经验描述"
+
+            ],
+
+            "interview_advice": [
+
+            "请详细介绍你开发的低代码可视化搭建平台，其渲染引擎如何实现拖拽和配置？",
+
+            "在Three.js/WebGL项目中，你如何优化大场景的渲染性能？",
+
+            "如果需要实现一个实时数据可视化大屏，你会选择哪些技术方案？",
+
+            "你对数据可视化的视觉映射和交互规范有哪些理解？",
+
+            "描述一个你与后端/数据团队协作完成的可视化需求，如何解决数据格式不匹配的问题？"
+
+            ]
+
+            },
+
+            {
+
+            "matched_score": 70,
+
+            "matched_job": "前端开发（上海良信电器股份有限公司）",
+
+            "type": "全职",
+
+            "salary": 12000,
+
+            "matched_reason": "岗位核心要求React、HTML/CSS/JavaScript、Git，候选人具备扎实的React栈及现代前端工程化能力，且项目经验涉及架构升级与组件库维护，与岗位需求匹配。工作年限要求3-5年，候选人2.5年稍显不足，但综合技能可争取。",
+
+            "gap_points": [
+
+            "简历未提及Git版本控制与团队协作流程的明确经验",
+
+            "未体现需求分析、技术文档编写等软技能",
+
+            "缺少对常用状态管理库（如MobX、Zustand）或测试框架的说明，岗位隐含工程化要求",
+
+            "未展示对后端接口规范的深入理解"
+
+            ],
+
+            "interview_advice": [
+
+            "请描述你在团队中如何使用Git进行分支管理，处理过哪些合并冲突？",
+
+            "你如何对现有React应用开展性能优化？请举一个实际案例。",
+
+            "如果让你主导一个新功能的前端技术方案设计，你会如何产出需求分析和开发文档？",
+
+            "你在管理后台架构升级（Webpack迁移Vite）中遇到过哪些踩坑点？",
+
+            "你如何保证UI组件库的API设计易用性和扩展性？"
+
+            ]
+
+            }
+
+            ]'
+        selected: false
+        structured_output_enabled: false
+        title: LLM-匹配分析
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1777449125546'
+      position:
+        x: 1511.3846478431349
+        y: 282
+      positionAbsolute:
+        x: 1511.3846478431349
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        outputs:
+        - value_selector:
+          - '1777449125546'
+          - text
+          value_type: string
+          variable: result
+        selected: false
+        title: job匹配结果输出
+        type: end
+      height: 88
+      id: '1777449604737'
+      position:
+        x: 1888
+        y: 282
+      positionAbsolute:
+        x: 1888
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        is_array_file: true
+        selected: false
+        title: 简历文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1777448514759'
+        - resume_text
+      height: 104
+      id: '1777451578014'
+      position:
+        x: 101.97584723773645
+        y: 398.8441681894654
+      positionAbsolute:
+        x: 101.97584723773645
+        y: 398.8441681894654
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1777448518758'
+          - text
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-v4-pro
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: ab1be5f5-cd40-4d0b-a024-bb7f3a3ac5ba
+          role: system
+          text: '请根据以下简历信息，生成用于岗位检索的查询关键词：
+
+
+
+            请根据以下简历信息，生成用于岗位检索的关键词：
+
+
+            {{{#1777448518758.text#}}}}
+
+
+            要求：
+
+            1. 只输出关键词
+
+            2. 用空格分隔
+
+            3. 不要JSON
+
+            4. 不要解释
+
+            5. 不要输出任何推理过程
+
+            6. 不要出现<think>标签
+
+
+            直接输出结果：'
+        selected: false
+        structured_output_enabled: true
+        title: LLM-关键词提取
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '1777459248531'
+      position:
+        x: 662.7023068122628
+        y: 609.2475969625772
+      positionAbsolute:
+        x: 662.7023068122628
+        y: 609.2475969625772
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "import re\n\ndef main(data):\n    \"\"\"\n    清洗输入中的 query 字段，去除 <think>...</think>\
+          \ 内容\n    \n    :param data: dict 或 str，如果为 dict 则包含 \"query\" 字段，否则视为直接文本\n\
+          \    :return: dict，清洗后的结果\n    \"\"\"\n    if isinstance(data, str):\n \
+          \       text = data\n    else:\n        text = data.get(\"query\", \"\"\
+          )\n    \n    # 去掉 <think>...</think>\n    clean_text = re.sub(r\"<think>.*?</think>\"\
+          , \"\", text, flags=re.S)\n    \n    return {\n        \"query\": clean_text.strip()\n\
+          \    }"
+        code_language: python3
+        outputs:
+          query:
+            children: null
+            type: string
+        selected: false
+        title: query清洗
+        type: code
+        variables:
+        - value_selector:
+          - '1777459248531'
+          - text
+          value_type: string
+          variable: data
+      height: 52
+      id: '1777460505649'
+      position:
+        x: 970.9997494351312
+        y: 609.2475969625772
+      positionAbsolute:
+        x: 970.9997494351312
+        y: 609.2475969625772
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -1256.5628331155922
+      y: -68.9560905212507
+      zoom: 0.8312379195872138
+  rag_pipeline_variables: []
