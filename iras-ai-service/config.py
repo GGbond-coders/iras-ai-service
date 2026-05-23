@@ -21,7 +21,7 @@ import os
 # 大语言模型名称（qwen-plus 性价比最优，适合批量任务）
 LLM_MODEL = "qwen-plus"
 # API Key（从阿里云 DashScope 控制台获取）
-LLM_API_KEY = os.getenv("LLM_API_KEY", "sk-1355ad5da4634cd0b8dc00876018e2b3")
+LLM_API_KEY = os.getenv("LLM_API_KEY", "*************")
 # OpenAI 兼容接口地址
 LLM_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 # 嵌入模型（用于文本向量化，每批最多 10 条）
